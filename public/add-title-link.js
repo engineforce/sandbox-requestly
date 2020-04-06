@@ -35,8 +35,10 @@ function exec() {
 
     if (window.location.hash.trim()) {
       const hashText = getHashText();
-      const hashTextNode = document.createTextNode(`${hashText} - `);
-      aNode.appendChild(hashTextNode);
+      if (hashText) {
+        const hashTextNode = document.createTextNode(`${hashText} - `);
+        aNode.appendChild(hashTextNode);
+      }
     }
 
     const title = document.querySelector("title").innerText;
@@ -55,19 +57,23 @@ function exec() {
 }
 
 function getHashText() {
-  const hashElement = document.querySelector(window.location.hash);
+  try {
+    const hashElement = document.querySelector(window.location.hash);
 
-  let text = hashElement.innerText;
+    let text = hashElement.innerText;
 
-  if (text) {
-    text = text.trim();
+    if (text) {
+      text = text.trim();
+    }
+
+    if (!text) {
+      text = hashElement.parentNode.innerText;
+    }
+
+    return text.trim().substr(0, 100);
+  } catch (ex) {
+    return undefined;
   }
-
-  if (!text) {
-    text = hashElement.parentNode.innerText;
-  }
-
-  return text.trim().substr(0, 100);
 }
 
 function getHost() {
