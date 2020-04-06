@@ -72,6 +72,7 @@ function getHashText() {
 
     return text.trim().substr(0, 100);
   } catch (ex) {
+    console.warn(`Failed to get text from hash: ${window.location.hash}`);
     return undefined;
   }
 }
